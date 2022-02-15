@@ -2680,9 +2680,6 @@ ul.breadcrumb li:last-child {
   }
   .post-block {
     padding: 12px;
-    box-shadow: 0 0 5px rgba(202,203,204,0.5);
-    -webkit-box-shadow: 0 0 5px rgba(202,203,203,0.5);
-    -moz-box-shadow: 0 0 5px rgba(202,203,204,0.5);
   }
   .comments {
     padding: 10px 12px;
