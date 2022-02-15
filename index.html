@@ -18,18 +18,18 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"guohaonan1.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
   <meta property="og:type" content="website">
 <meta property="og:title" content="郭浩男的博客">
-<meta property="og:url" content="http://example.com/index.html">
+<meta property="og:url" content="http://guohaonan1.github.io/index.html">
 <meta property="og:site_name" content="郭浩男的博客">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="http://example.com/">
+<link rel="canonical" href="http://guohaonan1.github.io/">
 
 
 
@@ -167,7 +167,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/02/15/springboot%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/">
+    <link itemprop="mainEntityOfPage" href="http://guohaonan1.github.io/2022/02/15/springboot%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -237,15 +237,15 @@
 <li>postman 测试后端接口</li>
 <li>vscode</li>
 </ul>
-<h3 id="新建项目"><a href="#新建项目" class="headerlink" title="新建项目"></a>新建项目</h3><img src="./springboot项目开发参考/boot1.jpg" alt="" width="60%" height="60%" align=center />
+<h3 id="新建项目"><a href="#新建项目" class="headerlink" title="新建项目"></a>新建项目</h3><img src="/.io//boot1.jpg" alt width="60%" height="60%" align="center">
 
-<img src="./springboot项目开发参考/boot2.jpg" alt="" width="60%" height="60%" align=center />
+<img src="/.io//boot2.jpg" alt width="60%" height="60%" align="center">
 
-<img src="./springboot项目开发参考/boot3.jpg" alt="" width="60%" height="60%" align=center />
+<img src="/.io//boot3.jpg" alt width="60%" height="60%" align="center">
 
 <ul>
 <li><p>项目结构</p>
-  <img src="./springboot项目开发参考/boot4.jpg" alt="" width="100%" height="100%" align=center />
+  <img src="/.io//boot4.jpg" alt width="100%" height="100%" align="center">
 
 <p>  DemoApplication： 项目启动类<br>  application.properties： 配置文件<br>  pom.xml： 运行环境，maven仓库</p>
 </li>
@@ -261,27 +261,27 @@
 <h5 id="4-repository"><a href="#4-repository" class="headerlink" title="4.repository"></a>4.repository</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">package com.example.demo.repository;</span><br><span class="line"></span><br><span class="line">import com.example.demo.entity.SysUser;</span><br><span class="line">import org.springframework.data.jpa.repository.JpaRepository;</span><br><span class="line">import org.springframework.stereotype.Repository;</span><br><span class="line"></span><br><span class="line">@Repository</span><br><span class="line">// 相当于UserDao</span><br><span class="line">// 将UserRepository继承JpaRepository就可以有对应的增删改查方法</span><br><span class="line">public interface UserRepository extends JpaRepository&lt;SysUser,Integer&gt;&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>不需要通过controller，即可使用postman查看接口</p>
-<img src="./springboot项目开发参考/boot5.jpg" alt="" width="80%" height="80%" align=center />
+<img src="/.io//boot5.jpg" alt width="80%" height="80%" align="center">
 
-<img src="./springboot项目开发参考/boot6.jpg" alt="" width="80%" height="80%" align=center />
+<img src="/.io//boot6.jpg" alt width="80%" height="80%" align="center">
 
 <h5 id="5-添加查询方法"><a href="#5-添加查询方法" class="headerlink" title="5.添加查询方法"></a>5.添加查询方法</h5><ul>
 <li><p>使用</p>
   <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">import com.example.demo.entity.SysUser;</span><br><span class="line">import org.springframework.data.jpa.repository.JpaRepository;</span><br><span class="line">import org.springframework.data.jpa.repository.Query;</span><br><span class="line">import org.springframework.stereotype.Repository;</span><br><span class="line"></span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">@Repository</span><br><span class="line">// 相当于UserDao</span><br><span class="line">// 将UserRepository继承JpaRepository就可以有对应的增删改查方法</span><br><span class="line">public interface UserRepository extends JpaRepository&lt;SysUser,Integer&gt;&#123;</span><br><span class="line"></span><br><span class="line">    public SysUser findByUserIdAndPassword(Integer userId, String password);</span><br><span class="line"></span><br><span class="line">    @Query(value = &quot;select * from sys_user u where u.user_id=?1 and u.password=?2&quot;, nativeQuery = true)</span><br><span class="line">    public List&lt;SysUser&gt; findByOwnMethod(Integer userId, String password);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-  <img src="./springboot项目开发参考/boot8.jpg" alt="" width="80%" height="80%" align=center />
+  <img src="/.io//boot8.jpg" alt width="80%" height="80%" align="center">
 </li>
 <li><p>jpa自动生成sql  </p>
 <p>  spring-data-jpa会根据方法的名字来自动生成sql语句，只需要按照方法定义的规则即可。</p>
   <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public SysUser findByUserIdAndPassword(Integer userId, String password);</span><br></pre></td></tr></table></figure>
 <p>  上面的方法findByUserIdAndPassword，以findBy开头，sql的where部分就是UserIdAndPassword，被spring-data-jpa翻译之后就编程了下面这种形态：</p>
   <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from user where userId = ? and password = ?</span><br></pre></td></tr></table></figure>
-  <img src="./springboot项目开发参考/boot7.jpg" alt="" width="80%" height="80%" align=center />
+  <img src="/.io//boot7.jpg" alt width="80%" height="80%" align="center">
 </li>
 <li><p>自定义sql</p>
 <p>  使用@Query注解，写原生sql</p>
   <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@Query(value = &quot;select * from sys_user u where u.user_id=?1 and u.password=?2&quot;, nativeQuery = true)</span><br><span class="line">public List&lt;SysUser&gt; findByOwnMethod(Integer userId, String password);</span><br></pre></td></tr></table></figure>
-  <img src="./springboot项目开发参考/boot9.jpg" alt="" width="80%" height="80%" align=center /></li>
+  <img src="/.io//boot9.jpg" alt width="80%" height="80%" align="center"></li>
 </ul>
 <h5 id="6-service"><a href="#6-service" class="headerlink" title="6.service"></a>6.service</h5><p>主要有两个作用</p>
 <ul>
@@ -298,7 +298,7 @@
 <li>1 直接访问repository  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:18888/define/login?userId=1&amp;password=123</span><br></pre></td></tr></table></figure></li>
 <li>2 访问service  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:18888/define/login2?userId=1&amp;password=123</span><br></pre></td></tr></table></figure></li>
 </ul>
-<img src="./springboot项目开发参考/boot10.jpg" alt="" width="40%" height="40%" align=center />
+<img src="/.io//boot10.jpg" alt width="40%" height="40%" align="center">
 
 <h5 id="8-学习链接"><a href="#8-学习链接" class="headerlink" title="8.学习链接"></a>8.学习链接</h5><p>Spring Data Jpa的使用：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/c23c82a8fcfc">https://www.jianshu.com/p/c23c82a8fcfc</a></p>
 
@@ -327,7 +327,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/02/15/%E7%AC%AC%E4%B8%80%E7%AF%87%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">
+    <link itemprop="mainEntityOfPage" href="http://guohaonan1.github.io/2022/02/15/%E7%AC%AC%E4%B8%80%E7%AF%87%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -390,7 +390,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/02/15/hello-world/">
+    <link itemprop="mainEntityOfPage" href="http://guohaonan1.github.io/2022/02/15/hello-world/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
