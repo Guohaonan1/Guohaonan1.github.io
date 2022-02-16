@@ -31,7 +31,7 @@
 <meta property="og:image" content="http://guohaonan1.github.io/2022/02/16/macm1%E5%AE%89%E8%A3%85nginx/nginx-web.png">
 <meta property="og:image" content="http://guohaonan1.github.io/2022/02/16/macm1%E5%AE%89%E8%A3%85nginx/nginx-main.png">
 <meta property="article:published_time" content="2022-02-16T02:47:46.000Z">
-<meta property="article:modified_time" content="2022-02-16T02:55:43.369Z">
+<meta property="article:modified_time" content="2022-02-16T03:08:12.410Z">
 <meta property="article:author" content="郭浩男">
 <meta property="article:tag" content="Mac">
 <meta property="article:tag" content="Nginx">
@@ -230,7 +230,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2022-02-16 10:47:46 / 修改时间：10:55:43" itemprop="dateCreated datePublished" datetime="2022-02-16T10:47:46+08:00">2022-02-16</time>
+      <time title="创建时间：2022-02-16 10:47:46 / 修改时间：11:08:12" itemprop="dateCreated datePublished" datetime="2022-02-16T10:47:46+08:00">2022-02-16</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -287,46 +287,35 @@
 </li>
 </ul>
 <h3 id="安装Nginx"><a href="#安装Nginx" class="headerlink" title="安装Nginx"></a>安装Nginx</h3><ul>
-<li>（1）由于网络以及其他原因，不使用brew安装，去nginx官网下载</li>
-</ul>
-<p>下载地址： <a target="_blank" rel="noopener" href="http://nginx.org/en/download.html">http://nginx.org/en/download.html</a></p>
-<img src="/2022/02/16/macm1%E5%AE%89%E8%A3%85nginx/nginx-download.png" alt width="80%" height="80%" align="center">
+<li><p>（1）由于网络以及其他原因，不使用brew安装，去nginx官网下载</p>
+<p>  下载地址： <a target="_blank" rel="noopener" href="http://nginx.org/en/download.html">http://nginx.org/en/download.html</a></p>
+  <img src="/2022/02/16/macm1%E5%AE%89%E8%A3%85nginx/nginx-download.png" alt width="80%" height="80%" align="center">
 
-<p>本次下载版本微1.18.0</p>
-<ul>
-<li>（2）下载PRCE库，不下载的话，安装过程会报错</li>
-</ul>
-<p>下载地址： <a target="_blank" rel="noopener" href="https://sourceforge.net/projects/pcre/files/">https://sourceforge.net/projects/pcre/files/</a></p>
-<p>可能的报错内容：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">./configure: error: the HTTP rewrite module requires the PCRE library.</span><br><span class="line">You can either disable the module by using --without-http_rewrite_module</span><br><span class="line">option, or install the PCRE library into the system, or build the PCRE library</span><br><span class="line">statically from the source with nginx by using --with-pcre= option.</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>（3）下载SSL</li>
-</ul>
-<p>下载地址： <a target="_blank" rel="noopener" href="https://www.openssl.org/source/">https://www.openssl.org/source/</a></p>
-<img src="/2022/02/16/macm1%E5%AE%89%E8%A3%85nginx/openssl.png" alt width="80%" height="80%" align="center">
-
-<ul>
+<p>  本次下载版本微1.18.0</p>
+</li>
+<li><p>（2）下载PRCE库，不下载的话，安装过程会报错</p>
+<p>  下载地址： <a target="_blank" rel="noopener" href="https://sourceforge.net/projects/pcre/files/">https://sourceforge.net/projects/pcre/files/</a></p>
+<p>  可能的报错内容：</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">./configure: error: the HTTP rewrite module requires the PCRE library.</span><br><span class="line">You can either disable the module by using --without-http_rewrite_module</span><br><span class="line">option, or install the PCRE library into the system, or build the PCRE library</span><br><span class="line">statically from the source with nginx by using --with-pcre= option.</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>（3）下载SSL </p>
+<p>  下载地址： <a target="_blank" rel="noopener" href="https://www.openssl.org/source/">https://www.openssl.org/source/</a></p>
+  <img src="/2022/02/16/macm1%E5%AE%89%E8%A3%85nginx/openssl.png" alt width="80%" height="80%" align="center">
+</li>
 <li><p>（4）将上述下载文件移动到同一自定义目录下，解压缩，也可以用mac自带工具解压</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo tar zxvf nginx-1.18.0.tar.gz</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo tar zxvf nginx-1.18.0.tar.gz</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>（5）编译安装–Configure Nginx</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cd nginx-1.18.0/</span><br><span class="line"></span><br><span class="line">sudo ./configure --with-pcre=../pcre-8.45/ </span><br><span class="line"></span><br><span class="line">sudo make</span><br><span class="line"></span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
 </li>
+<li><p>（6）将nginx加入环境变量</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.zshrc</span><br><span class="line"></span><br><span class="line">export PATH=&quot;/usr/local/nginx/sbin:$PATH&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>（7）验证–在目标文件夹下生成nginx目录</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local</span><br><span class="line"></span><br><span class="line">sudo ./nginx</span><br></pre></td></tr></table></figure>
+<p>  访问 <a href="localhost">localhost</a>，安装成功</p>
+  <img src="/2022/02/16/macm1%E5%AE%89%E8%A3%85nginx/nginx-web.png" alt width="80%" height="80%" align="center"></li>
 </ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cd nginx-1.18.0/</span><br><span class="line"></span><br><span class="line">sudo ./configure --with-pcre=../pcre-8.45/ </span><br><span class="line"></span><br><span class="line">sudo make</span><br><span class="line"></span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>（6）将nginx加入环境变量</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.zshrc</span><br><span class="line"></span><br><span class="line">export PATH=&quot;/usr/local/nginx/sbin:$PATH&quot;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>（7）验证–在目标文件夹下生成nginx目录</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local</span><br><span class="line"></span><br><span class="line">sudo ./nginx</span><br></pre></td></tr></table></figure>
-<p>访问 <a href="localhost">localhost</a>，安装成功</p>
-<img src="/2022/02/16/macm1%E5%AE%89%E8%A3%85nginx/nginx-web.png" alt width="80%" height="80%" align="center">
-
 <h3 id="部署VUE项目"><a href="#部署VUE项目" class="headerlink" title="部署VUE项目"></a>部署VUE项目</h3><ul>
 <li><p>(1) 打包vue项目，生成dist目录</p>
   <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure>
