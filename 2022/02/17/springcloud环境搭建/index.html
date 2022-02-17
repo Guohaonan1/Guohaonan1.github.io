@@ -39,7 +39,7 @@
 <meta property="og:image" content="http://guohaonan1.github.io/2022/02/17/springcloud%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/springb11.png?raw=true">
 <meta property="og:image" content="http://guohaonan1.github.io/2022/02/17/springcloud%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/springb12.png?raw=true">
 <meta property="article:published_time" content="2022-02-17T07:20:35.000Z">
-<meta property="article:modified_time" content="2022-02-17T07:42:45.103Z">
+<meta property="article:modified_time" content="2022-02-17T08:02:09.818Z">
 <meta property="article:author" content="郭浩男">
 <meta property="article:tag" content="springcloud">
 <meta property="article:tag" content="eureka">
@@ -137,7 +137,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#springcloud%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-number">1.</span> <span class="nav-text">springcloud环境搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B0%E5%BB%BAIDEA%E9%A1%B9%E7%9B%AE"><span class="nav-number">1.1.</span> <span class="nav-text">新建IDEA项目</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E7%88%B6%E5%B7%A5%E7%A8%8B"><span class="nav-number">1.1.1.</span> <span class="nav-text">初始化父工程</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%88%B6%E5%B7%A5%E7%A8%8B%E7%9A%84pom-xml%E6%96%87%E4%BB%B6"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">父工程的pom.xml文件</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E5%AD%90%E5%B7%A5%E7%A8%8B%EF%BC%88Eureka-%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83%EF%BC%89"><span class="nav-number">1.1.2.</span> <span class="nav-text">初始化子工程（Eureka 服务注册中心）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%90module%E7%9A%84pom-xml"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">子module的pom.xml</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E7%88%B6%E5%AD%90%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">1.1.3.</span> <span class="nav-text">建立父子项目的关系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1eureka%E7%9A%84%E9%85%8D%E7%BD%AE%E6%AD%A5%E9%AA%A4"><span class="nav-number">1.1.4.</span> <span class="nav-text">微服务eureka的配置步骤</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="nav-number">1.1.5.</span> <span class="nav-text">初始化客户端</span></a></li></ol></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#springcloud%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-number">1.</span> <span class="nav-text">springcloud环境搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B0%E5%BB%BAIDEA%E9%A1%B9%E7%9B%AE"><span class="nav-number">1.1.</span> <span class="nav-text">新建IDEA项目</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E7%88%B6%E5%B7%A5%E7%A8%8B"><span class="nav-number">1.1.1.</span> <span class="nav-text">初始化父工程</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%88%B6%E5%B7%A5%E7%A8%8B%E7%9A%84pom-xml%E6%96%87%E4%BB%B6"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">父工程的pom.xml文件</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E6%9C%8D%E5%8A%A1%E4%B8%80-x2F-%E5%AD%90%E5%B7%A5%E7%A8%8B%EF%BC%88Eureka-%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83%EF%BC%89"><span class="nav-number">1.1.2.</span> <span class="nav-text">初始化服务一&#x2F;子工程（Eureka 服务注册中心）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%90module%E7%9A%84pom-xml"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">子module的pom.xml</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E7%88%B6%E5%AD%90%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">1.1.3.</span> <span class="nav-text">建立父子项目的关系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1eureka%E7%9A%84%E9%85%8D%E7%BD%AE%E6%AD%A5%E9%AA%A4"><span class="nav-number">1.1.4.</span> <span class="nav-text">微服务eureka的配置步骤</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E6%9C%8D%E5%8A%A1%E4%BA%8C-x2F-%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="nav-number">1.1.5.</span> <span class="nav-text">初始化服务二&#x2F;客户端</span></a></li></ol></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -238,7 +238,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2022-02-17 15:20:35 / 修改时间：15:42:45" itemprop="dateCreated datePublished" datetime="2022-02-17T15:20:35+08:00">2022-02-17</time>
+      <time title="创建时间：2022-02-17 15:20:35 / 修改时间：16:02:09" itemprop="dateCreated datePublished" datetime="2022-02-17T15:20:35+08:00">2022-02-17</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -268,7 +268,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>10k</span>
+      <span>11k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -295,13 +295,13 @@
 <li><a href="#%E7%88%B6%E5%B7%A5%E7%A8%8B%E7%9A%84pomxml%E6%96%87%E4%BB%B6">父工程的pom.xml文件</a></li>
 </ul>
 </li>
-<li><a href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E5%AD%90%E5%B7%A5%E7%A8%8Beureka-%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83">初始化子工程（Eureka 服务注册中心）</a><ul>
+<li><a href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E6%9C%8D%E5%8A%A1%E4%B8%80%E5%AD%90%E5%B7%A5%E7%A8%8Beureka-%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83">初始化服务一&#x2F;子工程（Eureka 服务注册中心）</a><ul>
 <li><a href="#%E5%AD%90module%E7%9A%84pomxml">子module的pom.xml</a></li>
 </ul>
 </li>
 <li><a href="#%E5%BB%BA%E7%AB%8B%E7%88%B6%E5%AD%90%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%85%B3%E7%B3%BB">建立父子项目的关系</a></li>
 <li><a href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1eureka%E7%9A%84%E9%85%8D%E7%BD%AE%E6%AD%A5%E9%AA%A4">微服务eureka的配置步骤</a></li>
-<li><a href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E5%AE%A2%E6%88%B7%E7%AB%AF">初始化客户端</a></li>
+<li><a href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E6%9C%8D%E5%8A%A1%E4%BA%8C%E5%AE%A2%E6%88%B7%E7%AB%AF">初始化服务二&#x2F;客户端</a></li>
 </ul>
 </li>
 </ul>
@@ -346,7 +346,7 @@
  <img src="/2022/02/17/springcloud%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/springb8.png?raw=true" alt width="80%" height="80%" align="center">
 
 
-<h4 id="初始化子工程（Eureka-服务注册中心）"><a href="#初始化子工程（Eureka-服务注册中心）" class="headerlink" title="初始化子工程（Eureka 服务注册中心）"></a>初始化子工程（Eureka 服务注册中心）</h4><p>创建Eureka，也就是创建本项目的子模块</p>
+<h4 id="初始化服务一-x2F-子工程（Eureka-服务注册中心）"><a href="#初始化服务一-x2F-子工程（Eureka-服务注册中心）" class="headerlink" title="初始化服务一&#x2F;子工程（Eureka 服务注册中心）"></a>初始化服务一&#x2F;子工程（Eureka 服务注册中心）</h4><p>创建Eureka，也就是创建本项目的子模块</p>
  <img src="/2022/02/17/springcloud%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/springb9.png?raw=true" alt width="80%" height="80%" align="center">
 
 <ul>
@@ -378,7 +378,7 @@
 <p>  可以看到现在，注册中心中，没有服务注册。</p>
   <img src="/2022/02/17/springcloud%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/springb10.png?raw=true" alt width="80%" height="80%" align="center"></li>
 </ul>
-<h4 id="初始化客户端"><a href="#初始化客户端" class="headerlink" title="初始化客户端"></a>初始化客户端</h4><p><strong>客户端client，提供真正的服务的配置，此服务在注册中心注册</strong></p>
+<h4 id="初始化服务二-x2F-客户端"><a href="#初始化服务二-x2F-客户端" class="headerlink" title="初始化服务二&#x2F;客户端"></a>初始化服务二&#x2F;客户端</h4><p><strong>客户端client，提供真正的服务的配置，此服务在注册中心注册</strong></p>
 <ul>
 <li><p>client的pom.xml</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">         xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;</span><br><span class="line">    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</span><br><span class="line">    &lt;!--    &lt;groupId&gt;com.example&lt;/groupId&gt;--&gt;</span><br><span class="line">    &lt;artifactId&gt;springcloud-eureka-client&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;</span><br><span class="line">    &lt;name&gt;springcloud-eureka-client&lt;/name&gt;</span><br><span class="line">    &lt;description&gt;Demo project for Spring Boot&lt;/description&gt;</span><br><span class="line">    &lt;parent&gt;</span><br><span class="line">        &lt;groupId&gt;com.example&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;springcloud&lt;/artifactId&gt;</span><br><span class="line">        &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;</span><br><span class="line">    &lt;/parent&gt;</span><br><span class="line"></span><br><span class="line">    &lt;packaging&gt;jar&lt;/packaging&gt;</span><br><span class="line"></span><br><span class="line">    &lt;properties&gt;</span><br><span class="line">        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;</span><br><span class="line">        &lt;project.reporting.outputEncoding&gt;UTF-8&lt;/project.reporting.outputEncoding&gt;</span><br><span class="line">        &lt;java.version&gt;1.8&lt;/java.version&gt;</span><br><span class="line">    &lt;/properties&gt;</span><br><span class="line">    &lt;dependencies&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-client&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">    &lt;/dependencies&gt;</span><br><span class="line">&lt;/project&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
