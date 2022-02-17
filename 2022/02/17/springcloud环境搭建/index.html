@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.0.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg-circle-brands.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg-circle-brands.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg-circle-brands.svg">
+  <link rel="mask-icon" href="/images/gg-circle-brands.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"guohaonan1.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+  <meta name="description" content="springboot项目开发参考，主要使用Spring Data JPA 和 Spring Data REST 实现">
+<meta property="og:type" content="website">
+<meta property="og:title" content="springcloud环境搭建">
+<meta property="og:url" content="http://guohaonan1.github.io/2022/02/17/springcloud%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/index.html">
+<meta property="og:site_name" content="郭浩男的博客">
+<meta property="og:description" content="springboot项目开发参考，主要使用Spring Data JPA 和 Spring Data REST 实现">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://guohaonan1.github.io/2022/02/17/springcloud%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/springcloud1.png">
+<meta property="og:image" content="http://guohaonan1.github.io/2022/02/17/springcloud%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/springb2.png?raw=true">
+<meta property="og:image" content="http://guohaonan1.github.io/2022/02/17/springcloud%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/springb3.png?raw=true">
+<meta property="og:image" content="http://guohaonan1.github.io/2022/02/17/springcloud%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/springb4.png?raw=true">
+<meta property="og:image" content="http://guohaonan1.github.io/2022/02/17/springcloud%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/springb5.png?raw=true">
+<meta property="og:image" content="http://guohaonan1.github.io/2022/02/17/springcloud%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/springb6.png?raw=true">
+<meta property="og:image" content="http://guohaonan1.github.io/2022/02/17/springcloud%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/springb7.png?raw=true">
+<meta property="og:image" content="http://guohaonan1.github.io/2022/02/17/springcloud%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/springb8.png?raw=true">
+<meta property="og:image" content="http://guohaonan1.github.io/2022/02/17/springcloud%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/springb9.png?raw=true">
+<meta property="og:image" content="http://guohaonan1.github.io/2022/02/17/springcloud%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/springb10.png?raw=true">
+<meta property="og:image" content="http://guohaonan1.github.io/2022/02/17/springcloud%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/springb11.png?raw=true">
+<meta property="og:image" content="http://guohaonan1.github.io/2022/02/17/springcloud%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/springb12.png?raw=true">
+<meta property="article:published_time" content="2022-02-17T07:20:35.000Z">
+<meta property="article:modified_time" content="2022-02-17T07:38:09.484Z">
+<meta property="article:author" content="郭浩男">
+<meta property="article:tag" content="springcloud">
+<meta property="article:tag" content="eureka">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://guohaonan1.github.io/2022/02/17/springcloud%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/springcloud1.png">
+
+
+<link rel="canonical" href="http://guohaonan1.github.io/2022/02/17/springcloud%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://guohaonan1.github.io/2022/02/17/springcloud%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/","path":"2022/02/17/springcloud环境搭建/","title":"springcloud环境搭建"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>springcloud环境搭建 | 郭浩男的博客</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?2e8b14384bfba42425c3ed3d9c599b63"></script>
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">郭浩男的博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录生活</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#springcloud%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-number">1.</span> <span class="nav-text">springcloud环境搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B0%E5%BB%BAIDEA%E9%A1%B9%E7%9B%AE"><span class="nav-number">1.1.</span> <span class="nav-text">新建IDEA项目</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E7%88%B6%E5%B7%A5%E7%A8%8B"><span class="nav-number">1.1.1.</span> <span class="nav-text">初始化父工程</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%88%B6%E5%B7%A5%E7%A8%8B%E7%9A%84pom-xml%E6%96%87%E4%BB%B6"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">父工程的pom.xml文件</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E5%AD%90%E5%B7%A5%E7%A8%8B%EF%BC%88Eureka-%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83%EF%BC%89"><span class="nav-number">1.1.2.</span> <span class="nav-text">初始化子工程（Eureka 服务注册中心）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%90module%E7%9A%84pom-xml"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">子module的pom.xml</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E7%88%B6%E5%AD%90%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">1.1.3.</span> <span class="nav-text">建立父子项目的关系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1eureka%E7%9A%84%E9%85%8D%E7%BD%AE%E6%AD%A5%E9%AA%A4"><span class="nav-number">1.1.4.</span> <span class="nav-text">微服务eureka的配置步骤</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="nav-number">1.1.5.</span> <span class="nav-text">初始化客户端</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="郭浩男"
+      src="/images/ghn.jpg">
+  <p class="site-author-name" itemprop="name">郭浩男</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Guohaonan1" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Guohaonan1" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/qq_23858785" title="CSDN → https:&#x2F;&#x2F;blog.csdn.net&#x2F;qq_23858785" rel="noopener" target="_blank"><i class="fab fa-c fa-fw"></i>CSDN</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN,en" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://guohaonan1.github.io/2022/02/17/springcloud%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/ghn.jpg">
+      <meta itemprop="name" content="郭浩男">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="郭浩男的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          springcloud环境搭建
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-02-17 15:20:35 / 修改时间：15:38:09" itemprop="dateCreated datePublished" datetime="2022-02-17T15:20:35+08:00">2022-02-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/JAVA%E5%90%8E%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">JAVA后端</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/JAVA%E5%90%8E%E7%AB%AF/springcloud/" itemprop="url" rel="index"><span itemprop="name">springcloud</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>10k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>10 分钟</span>
+    </span>
+</div>
+
+            <div class="post-description">springboot项目开发参考，主要使用Spring Data JPA 和 Spring Data REST 实现</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="springcloud环境搭建"><a href="#springcloud环境搭建" class="headerlink" title="springcloud环境搭建"></a>springcloud环境搭建</h2><!--TOC-->
+<ul>
+<li><a href="#springcloud%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA">springcloud环境搭建</a><ul>
+<li><a href="#%E6%96%B0%E5%BB%BAidea%E9%A1%B9%E7%9B%AE">新建IDEA项目</a><ul>
+<li><a href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E7%88%B6%E5%B7%A5%E7%A8%8B">初始化父工程</a><ul>
+<li><a href="#%E7%88%B6%E5%B7%A5%E7%A8%8B%E7%9A%84pomxml%E6%96%87%E4%BB%B6">父工程的pom.xml文件</a></li>
+</ul>
+</li>
+<li><a href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E5%AD%90%E5%B7%A5%E7%A8%8Beureka-%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83">初始化子工程（Eureka 服务注册中心）</a><ul>
+<li><a href="#%E5%AD%90module%E7%9A%84pomxml">子module的pom.xml</a></li>
+</ul>
+</li>
+<li><a href="#%E5%BB%BA%E7%AB%8B%E7%88%B6%E5%AD%90%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%85%B3%E7%B3%BB">建立父子项目的关系</a></li>
+<li><a href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1eureka%E7%9A%84%E9%85%8D%E7%BD%AE%E6%AD%A5%E9%AA%A4">微服务eureka的配置步骤</a></li>
+<li><a href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E5%AE%A2%E6%88%B7%E7%AB%AF">初始化客户端</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="新建IDEA项目"><a href="#新建IDEA项目" class="headerlink" title="新建IDEA项目"></a>新建IDEA项目</h3> <img src="/2022/02/17/springcloud%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/springcloud1.png" alt width="80%" height="80%" align="center">
+
+<h4 id="初始化父工程"><a href="#初始化父工程" class="headerlink" title="初始化父工程"></a>初始化父工程</h4><p>初始化名称，这是父工程。</p>
+<blockquote>
+<p>父服务的作用：</p>
+<blockquote>
+<ol>
+<li>为所有的子module提供公共的jar包依赖</li>
+<li>具体功能由每个module完成，即每个微服务</li>
+</ol>
+</blockquote>
+</blockquote>
+ <img src="/2022/02/17/springcloud%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/springb2.png?raw=true" alt width="80%" height="80%" align="center">
+
+<p>不选择任何jar包，单独添加。</p>
+ <img src="/2022/02/17/springcloud%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/springb3.png?raw=true" alt width="80%" height="80%" align="center">
+
+<p>项目目录结构</p>
+<blockquote>
+<p>springcloud-eureka-clientEureka 服务注册中心<br>Springcloud-ms-eureka 是服务端</p>
+</blockquote>
+ <img src="/2022/02/17/springcloud%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/springb4.png?raw=true" alt width="60%" height="60%" align="center">
+
+<h5 id="父工程的pom-xml文件"><a href="#父工程的pom-xml文件" class="headerlink" title="父工程的pom.xml文件"></a>父工程的pom.xml文件</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">         xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;</span><br><span class="line">    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</span><br><span class="line">    &lt;parent&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;</span><br><span class="line">        &lt;version&gt;2.0.3.RELEASE&lt;/version&gt;</span><br><span class="line">        &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;</span><br><span class="line">    &lt;/parent&gt;</span><br><span class="line">    &lt;groupId&gt;com.example&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;springcloud&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- 注意 最后打包 最外层的pom 需要更改为 pom而不是jar   --&gt;</span><br><span class="line">    &lt;packaging&gt;pom&lt;/packaging&gt;</span><br><span class="line">&lt;!--    &lt;packaging&gt;pom&lt;/packaging&gt;--&gt;</span><br><span class="line"></span><br><span class="line">    &lt;name&gt;springcloud&lt;/name&gt;</span><br><span class="line">    &lt;description&gt;Demo project for Spring Boot&lt;/description&gt;</span><br><span class="line"></span><br><span class="line">    &lt;modules&gt;</span><br><span class="line">        &lt;module&gt;springcloud-ms-eureka&lt;/module&gt;</span><br><span class="line">        &lt;module&gt;springcloud-eureka-client&lt;/module&gt;</span><br><span class="line">    &lt;/modules&gt;</span><br><span class="line"></span><br><span class="line">    &lt;properties&gt;</span><br><span class="line">        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;</span><br><span class="line">        &lt;project.reporting.outputEncoding&gt;UTF-8&lt;/project.reporting.outputEncoding&gt;</span><br><span class="line">        &lt;java.version&gt;1.8&lt;/java.version&gt;</span><br><span class="line">&lt;!--        &lt;spring-cloud.version&gt;2.0.0.RELEASE&lt;/spring-cloud.version&gt;--&gt;</span><br><span class="line">        &lt;spring.cloud-version&gt;Finchley.RELEASE&lt;/spring.cloud-version&gt;</span><br><span class="line">    &lt;/properties&gt;</span><br><span class="line"></span><br><span class="line">    &lt;dependencies&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;</span><br><span class="line">            &lt;scope&gt;test&lt;/scope&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;!--最外层 主项目 添加spring cloud依赖 https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter --&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-cloud-starter&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.junit.jupiter&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;junit-jupiter-api&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;5.5.0&lt;/version&gt;</span><br><span class="line">            &lt;scope&gt;test&lt;/scope&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">    &lt;/dependencies&gt;</span><br><span class="line"></span><br><span class="line">    &lt;dependencyManagement&gt;</span><br><span class="line">        &lt;dependencies&gt;</span><br><span class="line">            &lt;dependency&gt;</span><br><span class="line">                &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;spring-cloud-dependencies&lt;/artifactId&gt;</span><br><span class="line">                &lt;version&gt;Finchley.RELEASE&lt;/version&gt;</span><br><span class="line">                &lt;type&gt;pom&lt;/type&gt;</span><br><span class="line">                &lt;scope&gt;import&lt;/scope&gt;</span><br><span class="line">            &lt;/dependency&gt;</span><br><span class="line">        &lt;/dependencies&gt;</span><br><span class="line">    &lt;/dependencyManagement&gt;</span><br><span class="line"></span><br><span class="line">    &lt;build&gt;</span><br><span class="line">        &lt;plugins&gt;</span><br><span class="line">            &lt;plugin&gt;</span><br><span class="line">                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;</span><br><span class="line">            &lt;/plugin&gt;</span><br><span class="line">        &lt;/plugins&gt;</span><br><span class="line">    &lt;/build&gt;</span><br><span class="line"></span><br><span class="line">&lt;/project&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>需要注意的是springboot和springcloud版本之间需要对应，本文springboot使用2.0.3.RELEASE，springcloud使用Finchley.RELEASE。</strong></p>
+<p>具体对照需要官网查看<a target="_blank" rel="noopener" href="https://start.spring.io/actuator/info">https://start.spring.io/actuator/info</a>（firefox查看是json格式）。</p>
+<p>或者官网查看最新版本<a target="_blank" rel="noopener" href="https://spring.io/projects/spring-cloud#learn">https://spring.io/projects/spring-cloud#learn</a></p>
+ <img src="/2022/02/17/springcloud%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/springb5.png?raw=true" alt width="100%" height="100%" align="center">
+
+ <img src="/2022/02/17/springcloud%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/springb6.png?raw=true" alt width="100%" height="100%" align="center">
+
+<p>大版本对应：</p>
+ <img src="/2022/02/17/springcloud%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/springb7.png?raw=true" alt width="80%" height="80%" align="center">
+
+<p>使用中具体版本对应：</p>
+ <img src="/2022/02/17/springcloud%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/springb8.png?raw=true" alt width="80%" height="80%" align="center">
+
+
+<h4 id="初始化子工程（Eureka-服务注册中心）"><a href="#初始化子工程（Eureka-服务注册中心）" class="headerlink" title="初始化子工程（Eureka 服务注册中心）"></a>初始化子工程（Eureka 服务注册中心）</h4><p>创建Eureka，也就是创建本项目的子模块</p>
+ <img src="/2022/02/17/springcloud%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/springb9.png?raw=true" alt width="80%" height="80%" align="center">
+
+<ul>
+<li>Eureka服务注册中心的作用：<ul>
+<li>让本项目的其他微服务在服务注册中心进行注册</li>
+<li>服务启动后，注册中心可以查询所有可用服务的实例库，并缓存到本地</li>
+<li>内置轮询负载均衡算法，默认发送心跳检测是30s，一个微服务停止了，需要3个心跳才能让服务器和客户端的元数据相同</li>
+</ul>
+</li>
+</ul>
+<h5 id="子module的pom-xml"><a href="#子module的pom-xml" class="headerlink" title="子module的pom.xml"></a>子module的pom.xml</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">         xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;</span><br><span class="line">    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</span><br><span class="line">    &lt;artifactId&gt;springcloud-ms-eureka&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;</span><br><span class="line">    &lt;name&gt;springcloud-ms-eureka&lt;/name&gt;</span><br><span class="line">    &lt;description&gt;Demo project for Spring Boot&lt;/description&gt;</span><br><span class="line">    &lt;parent&gt;</span><br><span class="line">        &lt;groupId&gt;com.example&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;springcloud&lt;/artifactId&gt;</span><br><span class="line">        &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;</span><br><span class="line">    &lt;/parent&gt;</span><br><span class="line">    &lt;packaging&gt;jar&lt;/packaging&gt;</span><br><span class="line">    &lt;properties&gt;</span><br><span class="line">        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;</span><br><span class="line">        &lt;project.reporting.outputEncoding&gt;UTF-8&lt;/project.reporting.outputEncoding&gt;</span><br><span class="line">        &lt;java.version&gt;1.8&lt;/java.version&gt;</span><br><span class="line">    &lt;/properties&gt;</span><br><span class="line">    &lt;dependencies&gt;</span><br><span class="line">&lt;!--        &lt;dependency&gt;--&gt;</span><br><span class="line">&lt;!--            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;--&gt;</span><br><span class="line">&lt;!--            &lt;artifactId&gt;spring-cloud-starter-eureka-server&lt;/artifactId&gt;--&gt;</span><br><span class="line">&lt;!--            &lt;version&gt;1.3.5.RELEASE&lt;/version&gt;--&gt;</span><br><span class="line">&lt;!--        &lt;/dependency&gt;--&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-server&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">    &lt;/dependencies&gt;</span><br><span class="line">&lt;/project&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="建立父子项目的关系"><a href="#建立父子项目的关系" class="headerlink" title="建立父子项目的关系"></a>建立父子项目的关系</h4><ul>
+<li><p>在外层的父项目中的pom.xml文件中进行声明<br>  声明的子级项目的名字 对应的是项目的pom.xml文件中子级项目的名字</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--父 pom.xml--&gt;</span><br><span class="line">&lt;artifactId&gt;springcloud&lt;/artifactId&gt;</span><br><span class="line">...</span><br><span class="line">&lt;modules&gt;</span><br><span class="line">    &lt;module&gt;springcloud-ms-eureka&lt;/module&gt;</span><br><span class="line">    &lt;module&gt;springcloud-eureka-client&lt;/module&gt;</span><br><span class="line">&lt;/modules&gt;</span><br></pre></td></tr></table></figure></li>
+<li><p>在子项目中<code>&lt;parent&gt;</code>中声明父级名称</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--子 pom.xml--&gt;</span><br><span class="line">&lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</span><br><span class="line">&lt;artifactId&gt;springcloud-ms-eureka&lt;/artifactId&gt;</span><br><span class="line">&lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;</span><br><span class="line">&lt;name&gt;springcloud-ms-eureka&lt;/name&gt;</span><br><span class="line">&lt;description&gt;Demo project for Spring Boot&lt;/description&gt;</span><br><span class="line">&lt;parent&gt;</span><br><span class="line">    &lt;groupId&gt;com.example&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;springcloud&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;</span><br><span class="line">&lt;/parent&gt;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="微服务eureka的配置步骤"><a href="#微服务eureka的配置步骤" class="headerlink" title="微服务eureka的配置步骤"></a>微服务eureka的配置步骤</h4><ul>
+<li><p>（1）完善eureka微服务的完整的pom.xml文【注意spring boot2.0版本 eureka的jar包名字已经改变】</p>
+<p>  <a href="#%E5%AD%90module%E7%9A%84pomxml">eureka的pom.xml</a></p>
+</li>
+<li><p>（2）在eureka微服务的启动类中添加注解@EnableEurekaServer</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">import org.springframework.boot.SpringApplication;</span><br><span class="line">import org.springframework.boot.autoconfigure.SpringBootApplication;</span><br><span class="line">import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;</span><br><span class="line"></span><br><span class="line">@EnableEurekaServer</span><br><span class="line">@SpringBootApplication</span><br><span class="line">public class SpringcloudMsEurekaApplication &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        SpringApplication.run(SpringcloudMsEurekaApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>（3）完善eureka的配置文件properties文件</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">#声明本服务在注册中心展示的名字、也是在网关访问时定位服务的名字</span><br><span class="line">spring.application.name=spring-cloud-ms-eureka</span><br><span class="line">eureka.instance.hostname=127.0.0.1</span><br><span class="line">server.port=8000</span><br><span class="line"></span><br><span class="line">#是否将自己作为服务注册到注册中心，默认为true，false不能将自己注册到自己,</span><br><span class="line">#如果有多个服务注册中心的微服务的话，可以将这个设置为true，表示可以将注册中心1注册到注册中心2中</span><br><span class="line">#eureka.client.register-with-eureka=false</span><br><span class="line">#表示是否从eureka注册中心中获取注册信息,默认为true</span><br><span class="line">#eureka.client.fetch-registry=false</span><br><span class="line">eureka.client.registerWithEureka=false</span><br><span class="line">  #是否将自己注册到 Eureka-Server 中，默认的为 true   registerWithEureka等同于register_with_eureka</span><br><span class="line">eureka.client.fetchRegistry=false</span><br><span class="line">  #是否需要拉取服务信息，默认未true fetchRegistry等同于 fetch-registry</span><br><span class="line"></span><br><span class="line">#注册中心的交互地址，设置多个地址可以用,分隔  查询服务和注册服务都需要依赖这个地址</span><br><span class="line">#关于设置注册中心这么关键的服务，如果是单点话，遇到故障就是毁灭性的。</span><br><span class="line">#在一个分布式系统中，服务注册中心是最重要的基础部分，理应随时处于可以提供服务的状态。为了维持其可用性，使用集群是很好的解决方案</span><br><span class="line">#所以 在一个分布式系统中，设置最少两个服务注册中心是最基本的</span><br><span class="line">eureka.client.serviceUrl.defaultZone=http://$&#123;eureka.instance.hostname&#125;:$&#123;server.port&#125;/eureka/</span><br><span class="line">#eureka.client.serviceUrl.defaultZone=http://localhost:8000/eureka/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>（4）启动服务中心<br>  访问<a target="_blank" rel="noopener" href="http://localhost:8000/">http:localhost:8000</a></p>
+<p>  可以看到现在，注册中心中，没有服务注册。</p>
+  <img src="/2022/02/17/springcloud%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/springb10.png?raw=true" alt width="80%" height="80%" align="center"></li>
+</ul>
+<h4 id="初始化客户端"><a href="#初始化客户端" class="headerlink" title="初始化客户端"></a>初始化客户端</h4><p><strong>客户端client，提供真正的服务的配置，此服务在注册中心注册</strong></p>
+<ul>
+<li><p>client的pom.xml</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">         xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;</span><br><span class="line">    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</span><br><span class="line">    &lt;!--    &lt;groupId&gt;com.example&lt;/groupId&gt;--&gt;</span><br><span class="line">    &lt;artifactId&gt;springcloud-eureka-client&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;</span><br><span class="line">    &lt;name&gt;springcloud-eureka-client&lt;/name&gt;</span><br><span class="line">    &lt;description&gt;Demo project for Spring Boot&lt;/description&gt;</span><br><span class="line">    &lt;parent&gt;</span><br><span class="line">        &lt;groupId&gt;com.example&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;springcloud&lt;/artifactId&gt;</span><br><span class="line">        &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;</span><br><span class="line">    &lt;/parent&gt;</span><br><span class="line"></span><br><span class="line">    &lt;packaging&gt;jar&lt;/packaging&gt;</span><br><span class="line"></span><br><span class="line">    &lt;properties&gt;</span><br><span class="line">        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;</span><br><span class="line">        &lt;project.reporting.outputEncoding&gt;UTF-8&lt;/project.reporting.outputEncoding&gt;</span><br><span class="line">        &lt;java.version&gt;1.8&lt;/java.version&gt;</span><br><span class="line">    &lt;/properties&gt;</span><br><span class="line">    &lt;dependencies&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-client&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">    &lt;/dependencies&gt;</span><br><span class="line">&lt;/project&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>完善配置文件properties文件</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#声明本服务在注册中心展示的名字、也是在网关访问时定位服务的名字</span><br><span class="line">spring.application.name=spring-cloud-eureka-client</span><br><span class="line">eureka.instance.hostname=127.0.0.1</span><br><span class="line">server.port=8001</span><br><span class="line"></span><br><span class="line">eureka.client.registerWithEureka=true</span><br><span class="line">#是否将自己注册到 Eureka-Server 中，默认的为 true   registerWithEureka等同于register_with_eureka</span><br><span class="line">eureka.client.fetchRegistry=true</span><br><span class="line"></span><br><span class="line">eureka.client.serviceUrl.defaultZone=http://$&#123;eureka.instance.hostname&#125;:8000/eureka/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ul>
+<li>提供服务</li>
+</ul>
+<p>在client的启动类添加@EnableDiscoveryClient，代表自己是一个服务注册方。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">import org.springframework.boot.SpringApplication;</span><br><span class="line">import org.springframework.boot.autoconfigure.SpringBootApplication;</span><br><span class="line">import org.springframework.cloud.client.discovery.EnableDiscoveryClient;</span><br><span class="line"></span><br><span class="line">@SpringBootApplication</span><br><span class="line">@EnableDiscoveryClient  //代表自己是服务提供方</span><br><span class="line">public class SpringcloudEurekaClientApplication &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        SpringApplication.run(SpringcloudEurekaClientApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>编写一个所提供的测试服务</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">import org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line">import org.springframework.web.bind.annotation.RestController;</span><br><span class="line"></span><br><span class="line">@RestController</span><br><span class="line">@RequestMapping(&quot;/hello&quot;)</span><br><span class="line">public class TestController &#123;</span><br><span class="line"></span><br><span class="line">    @RequestMapping(&quot;/world&quot;)</span><br><span class="line">    public String HelloWorld(String s)&#123;</span><br><span class="line">        return &quot;传入的值为&quot; + s;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>运行client程序</p>
+</li>
+</ul>
+<p>可以看到服务提供者已经被注册进eureka</p>
+ <img src="/2022/02/17/springcloud%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/springb11.png?raw=true" alt width="100%" height="100%" align="center">
+
+<p> 访问此服务 </p>
+<p> <a target="_blank" rel="noopener" href="http://localhost:8001/hello/world?s=1">http://localhost:8001/hello/world?s=1</a></p>
+ <img src="/2022/02/17/springcloud%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/springb12.png?raw=true" alt width="60%" height="60%" align="center">
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>郭浩男
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://guohaonan1.github.io/2022/02/17/springcloud%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" title="springcloud环境搭建">http://guohaonan1.github.io/2022/02/17/springcloud环境搭建/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN,en" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/springcloud/" rel="tag"># springcloud</a>
+              <a href="/tags/eureka/" rel="tag"># eureka</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/02/16/Spring-Cloud-Gateway%E9%9B%86%E6%88%90Swagger/" rel="prev" title="Spring Cloud Gateway集成Swagger">
+                  <i class="fa fa-chevron-left"></i> Spring Cloud Gateway集成Swagger
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭浩男</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">29k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">26 分钟</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        本站访客数：<span id="busuanzi_value_site_uv"></span>人
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        总阅读量：<span id="busuanzi_value_site_pv"></span>次
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>
