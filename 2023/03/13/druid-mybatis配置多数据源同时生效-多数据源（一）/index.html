@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.0.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg-circle-brands.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg-circle-brands.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg-circle-brands.svg">
+  <link rel="mask-icon" href="/images/gg-circle-brands.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"guohaonan1.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+  <meta name="description" content="druid+mybatis配置多数据源同时生效 -- 多数据源（一）">
+<meta property="og:type" content="website">
+<meta property="og:title" content="druid+mybatis配置多数据源同时生效 -- 多数据源（一）">
+<meta property="og:url" content="http://guohaonan1.github.io/2023/03/13/druid-mybatis%E9%85%8D%E7%BD%AE%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%E5%90%8C%E6%97%B6%E7%94%9F%E6%95%88-%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%EF%BC%88%E4%B8%80%EF%BC%89/index.html">
+<meta property="og:site_name" content="郭浩男的博客">
+<meta property="og:description" content="druid+mybatis配置多数据源同时生效 -- 多数据源（一）">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://guohaonan1.github.io/2023/03/13/druid-mybatis%E9%85%8D%E7%BD%AE%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%E5%90%8C%E6%97%B6%E7%94%9F%E6%95%88-%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%EF%BC%88%E4%B8%80%EF%BC%89/druid3.jpg">
+<meta property="og:image" content="http://guohaonan1.github.io/2023/03/13/druid-mybatis%E9%85%8D%E7%BD%AE%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%E5%90%8C%E6%97%B6%E7%94%9F%E6%95%88-%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%EF%BC%88%E4%B8%80%EF%BC%89/druid4.jpg">
+<meta property="og:image" content="http://guohaonan1.github.io/2023/03/13/druid-mybatis%E9%85%8D%E7%BD%AE%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%E5%90%8C%E6%97%B6%E7%94%9F%E6%95%88-%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%EF%BC%88%E4%B8%80%EF%BC%89/druid5.jpg">
+<meta property="og:image" content="http://guohaonan1.github.io/2023/03/13/druid-mybatis%E9%85%8D%E7%BD%AE%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%E5%90%8C%E6%97%B6%E7%94%9F%E6%95%88-%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%EF%BC%88%E4%B8%80%EF%BC%89/druid6.jpg">
+<meta property="og:image" content="http://guohaonan1.github.io/2023/03/13/druid-mybatis%E9%85%8D%E7%BD%AE%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%E5%90%8C%E6%97%B6%E7%94%9F%E6%95%88-%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%EF%BC%88%E4%B8%80%EF%BC%89/druid7.jpg">
+<meta property="article:published_time" content="2023-03-13T09:20:05.000Z">
+<meta property="article:modified_time" content="2023-03-13T09:24:36.478Z">
+<meta property="article:author" content="郭浩男">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="druid">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://guohaonan1.github.io/2023/03/13/druid-mybatis%E9%85%8D%E7%BD%AE%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%E5%90%8C%E6%97%B6%E7%94%9F%E6%95%88-%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%EF%BC%88%E4%B8%80%EF%BC%89/druid3.jpg">
+
+
+<link rel="canonical" href="http://guohaonan1.github.io/2023/03/13/druid-mybatis%E9%85%8D%E7%BD%AE%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%E5%90%8C%E6%97%B6%E7%94%9F%E6%95%88-%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%EF%BC%88%E4%B8%80%EF%BC%89/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://guohaonan1.github.io/2023/03/13/druid-mybatis%E9%85%8D%E7%BD%AE%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%E5%90%8C%E6%97%B6%E7%94%9F%E6%95%88-%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%EF%BC%88%E4%B8%80%EF%BC%89/","path":"2023/03/13/druid-mybatis配置多数据源同时生效-多数据源（一）/","title":"druid+mybatis配置多数据源同时生效 -- 多数据源（一）"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>druid+mybatis配置多数据源同时生效 -- 多数据源（一） | 郭浩男的博客</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?2e8b14384bfba42425c3ed3d9c599b63"></script>
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">郭浩男的博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录生活</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#druid-mybatis%E9%85%8D%E7%BD%AE%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%E5%90%8C%E6%97%B6%E7%94%9F%E6%95%88-%E2%80%93-%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%EF%BC%88%E4%B8%80%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">druid+mybatis配置多数据源同时生效 – 多数据源（一）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">1.1.</span> <span class="nav-text">应用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.2.</span> <span class="nav-text">实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BC%95%E5%85%A5%E4%BE%9D%E8%B5%96"><span class="nav-number">1.2.1.</span> <span class="nav-text">引入依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mapper%E5%92%8Cxml"><span class="nav-number">1.2.2.</span> <span class="nav-text">mapper和xml</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">1.2.3.</span> <span class="nav-text">配置文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E7%B1%BB"><span class="nav-number">1.2.4.</span> <span class="nav-text">数据库配置类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E8%AE%BF%E9%97%AE"><span class="nav-number">1.2.5.</span> <span class="nav-text">测试访问</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%BF%E9%97%AE%E7%BB%93%E6%9E%9C"><span class="nav-number">1.2.6.</span> <span class="nav-text">访问结果</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="郭浩男"
+      src="/images/ghn.jpg">
+  <p class="site-author-name" itemprop="name">郭浩男</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Guohaonan1" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Guohaonan1" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/qq_23858785" title="CSDN → https:&#x2F;&#x2F;blog.csdn.net&#x2F;qq_23858785" rel="noopener" target="_blank"><i class="fab fa-c fa-fw"></i>CSDN</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN,en" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://guohaonan1.github.io/2023/03/13/druid-mybatis%E9%85%8D%E7%BD%AE%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%E5%90%8C%E6%97%B6%E7%94%9F%E6%95%88-%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%EF%BC%88%E4%B8%80%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/ghn.jpg">
+      <meta itemprop="name" content="郭浩男">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="郭浩男的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          druid+mybatis配置多数据源同时生效 -- 多数据源（一）
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2023-03-13 17:20:05 / 修改时间：17:24:36" itemprop="dateCreated datePublished" datetime="2023-03-13T17:20:05+08:00">2023-03-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/druid/" itemprop="url" rel="index"><span itemprop="name">druid</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>8.8k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>8 分钟</span>
+    </span>
+</div>
+
+            <div class="post-description">druid+mybatis配置多数据源同时生效 -- 多数据源（一）</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="druid-mybatis配置多数据源同时生效-–-多数据源（一）"><a href="#druid-mybatis配置多数据源同时生效-–-多数据源（一）" class="headerlink" title="druid+mybatis配置多数据源同时生效 – 多数据源（一）"></a>druid+mybatis配置多数据源同时生效 – 多数据源（一）</h2><ul>
+<li><a href="#druidmybatis%E9%85%8D%E7%BD%AE%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%E5%90%8C%E6%97%B6%E7%94%9F%E6%95%88----%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%E4%B8%80">druid+mybatis配置多数据源同时生效 – 多数据源（一）</a><ul>
+<li><a href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF">应用场景</a></li>
+<li><a href="#%E5%AE%9E%E7%8E%B0">实现</a><ul>
+<li><a href="#%E5%BC%95%E5%85%A5%E4%BE%9D%E8%B5%96">引入依赖</a></li>
+<li><a href="#mapper%E5%92%8Cxml">mapper和xml</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6">配置文件</a></li>
+<li><a href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E7%B1%BB">数据库配置类</a></li>
+<li><a href="#%E6%B5%8B%E8%AF%95%E8%AE%BF%E9%97%AE">测试访问</a></li>
+<li><a href="#%E8%AE%BF%E9%97%AE%E7%BB%93%E6%9E%9C">访问结果</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><ul>
+<li>多数据源对应的表可能不同</li>
+<li>每个数据库维护自己的数据</li>
+<li>每个数据源维护自己对应的mapper</li>
+<li>本质上是一连多，并没有&#x3D;&#x3D;切换&#x3D;&#x3D;数据源</li>
+</ul>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><h4 id="引入依赖"><a href="#引入依赖" class="headerlink" title="引入依赖"></a>引入依赖</h4><p>环境为<code>springboot2.7.5</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">    &lt;exclusions&gt;</span><br><span class="line">        &lt;exclusion&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-logging&lt;/artifactId&gt;</span><br><span class="line">        &lt;/exclusion&gt;</span><br><span class="line">    &lt;/exclusions&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;!-- mybatis 支持 SpringBoot --&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.mybatis.spring.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;mybatis-spring-boot-starter&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;2.2.0&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;!-- https://mvnrepository.com/artifact/com.alibaba/druid-spring-boot-starter --&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;com.alibaba&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;druid-spring-boot-starter&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.2.16&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;!--引用 log4j2 spring boot 启动器，内部依赖了 slf4j、log4j；排除项目中的 logback--&gt;</span><br><span class="line">&lt;!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-log4j2 --&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-log4j2&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;3.0.3&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="mapper和xml"><a href="#mapper和xml" class="headerlink" title="mapper和xml"></a>mapper和xml</h4><p>分别对应不同的mapper，需要映射对应的mapper接口，person可以换成不同的实体类和表<br><code>master.xml</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;mapper namespace=&quot;com.example.demo.mapper.master.PersonMapper0&quot;&gt;</span><br></pre></td></tr></table></figure>
+<p><code>cluster.xml</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;mapper namespace=&quot;com.example.demo.mapper.master.PersonMapper1&quot;&gt;</span><br></pre></td></tr></table></figure>
+<p>xml文件放在对应<code>resources</code>的<code>mapping</code>目录下<br><img src="/2023/03/13/druid-mybatis%E9%85%8D%E7%BD%AE%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%E5%90%8C%E6%97%B6%E7%94%9F%E6%95%88-%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%EF%BC%88%E4%B8%80%EF%BC%89/druid3.jpg" alt width="40%" align="center"> <img src="/2023/03/13/druid-mybatis%E9%85%8D%E7%BD%AE%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%E5%90%8C%E6%97%B6%E7%94%9F%E6%95%88-%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%EF%BC%88%E4%B8%80%EF%BC%89/druid4.jpg" alt width="36%" align="center"></p>
+<p><code>PersonMapper0.java</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">@Mapper //表示这是Mybatis的mapper类</span><br><span class="line">@Repository</span><br><span class="line">public interface PersonMapper0 &#123;</span><br><span class="line"></span><br><span class="line">    List&lt;Person&gt; queryUserList();</span><br><span class="line"></span><br><span class="line">    Person queryUserByID(String id);</span><br><span class="line"></span><br><span class="line">    int addUser(Person person);</span><br><span class="line"></span><br><span class="line">    int updateUser(Person person);</span><br><span class="line"></span><br><span class="line">    int deleteUser(String id);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h4><p>需要自定义两个（多个）数据源的配置项，这里只列举了基础属性</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  datasource:</span><br><span class="line">    db01:</span><br><span class="line">      # 指定数据源</span><br><span class="line">      driver-class-name: com.mysql.cj.jdbc.Driver</span><br><span class="line">      type: com.alibaba.druid.pool.DruidDataSource  #当前数据源操作类型</span><br><span class="line">      # 1.jdbc配置</span><br><span class="line">      url: jdbc:mysql://localhost:3306/demo1</span><br><span class="line">      username: root</span><br><span class="line">      password: xxxxxx</span><br><span class="line">      #2.连接池配置</span><br><span class="line">      #初始化连接池的连接数量 大小，最小，最大</span><br><span class="line">      initial-size: 5</span><br><span class="line">    db02:</span><br><span class="line">      driver-class-name: com.mysql.cj.jdbc.Driver</span><br><span class="line">      type: com.alibaba.druid.pool.DruidDataSource  #当前数据源操作类型</span><br><span class="line">      # 1.jdbc配置</span><br><span class="line">      url: jdbc:mysql://localhost:3306/demo2</span><br><span class="line">      username: root</span><br><span class="line">      password: xxxxxx</span><br><span class="line">      #2.连接池配置</span><br><span class="line">      #初始化连接池的连接数量 大小，最小，最大</span><br><span class="line">      initial-size: 5</span><br></pre></td></tr></table></figure>
+<h4 id="数据库配置类"><a href="#数据库配置类" class="headerlink" title="数据库配置类"></a>数据库配置类</h4><p>数据库连接相关，以及扫描实体和mapper</p>
+<p>主数据库<code>master</code>配置类</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line">import com.alibaba.druid.pool.DruidDataSource;</span><br><span class="line">import org.apache.ibatis.session.SqlSessionFactory;</span><br><span class="line">import org.mybatis.spring.SqlSessionFactoryBean;</span><br><span class="line">import org.mybatis.spring.annotation.MapperScan;</span><br><span class="line">import org.slf4j.Logger;</span><br><span class="line">import org.slf4j.LoggerFactory;</span><br><span class="line">import org.springframework.beans.factory.annotation.Qualifier;</span><br><span class="line">import org.springframework.beans.factory.annotation.Value;</span><br><span class="line">import org.springframework.context.annotation.Bean;</span><br><span class="line">import org.springframework.context.annotation.Configuration;</span><br><span class="line">import org.springframework.context.annotation.Primary;</span><br><span class="line">import org.springframework.core.io.support.PathMatchingResourcePatternResolver;</span><br><span class="line">import org.springframework.jdbc.datasource.DataSourceTransactionManager;</span><br><span class="line"></span><br><span class="line">import javax.sql.DataSource;</span><br><span class="line">import java.sql.SQLException;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@Configuration</span><br><span class="line">@MapperScan(basePackages  = MasterDbConfig.PACKAGE , sqlSessionFactoryRef = &quot;masterSqlSessionFactory&quot;)</span><br><span class="line">public class MasterDbConfig &#123;</span><br><span class="line">    private Logger logger = LoggerFactory.getLogger(MasterDbConfig.class);</span><br><span class="line">    // 精确到 master 目录，以便跟其他数据源隔离</span><br><span class="line">    static final String PACKAGE = &quot;com.example.demo.mapper.master&quot;;</span><br><span class="line">    private static final String MAPPER_LOCATION = &quot;classpath*:mapping/master/*.xml&quot;;</span><br><span class="line">    private static final String DOMAIN_PACKAGE = &quot;com.example.demo.entity&quot;;</span><br><span class="line"></span><br><span class="line">    @Value(&quot;$&#123;spring.datasource.db01.url&#125;&quot;)</span><br><span class="line">    private String dbUrl;</span><br><span class="line"></span><br><span class="line">    @Value(&quot;$&#123;spring.datasource.db01.username&#125;&quot;)</span><br><span class="line">    private String username;</span><br><span class="line"></span><br><span class="line">    @Value(&quot;$&#123;spring.datasource.db01.password&#125;&quot;)</span><br><span class="line">    private String password;</span><br><span class="line"></span><br><span class="line">    @Value(&quot;$&#123;spring.datasource.db01.driver-class-name&#125;&quot;)</span><br><span class="line">    private String driverClassName;</span><br><span class="line"></span><br><span class="line">    @Bean(name=&quot;masterDataSource&quot;)   //声明其为Bean实例</span><br><span class="line">    @Primary  //在同样的DataSource中，首先使用被标注的DataSource</span><br><span class="line">    public DataSource masterDataSource() &#123;</span><br><span class="line">        DruidDataSource datasource = new DruidDataSource();</span><br><span class="line"></span><br><span class="line">        datasource.setUrl(this.dbUrl);</span><br><span class="line">        datasource.setUsername(username);</span><br><span class="line">        datasource.setPassword(password);</span><br><span class="line">        datasource.setDriverClassName(driverClassName);</span><br><span class="line"></span><br><span class="line">        return datasource;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Bean(name = &quot;masterTransactionManager&quot;)</span><br><span class="line">    @Primary</span><br><span class="line">    public DataSourceTransactionManager masterTransactionManager() &#123;</span><br><span class="line">        return new DataSourceTransactionManager(masterDataSource());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Bean(name = &quot;masterSqlSessionFactory&quot;)</span><br><span class="line">    @Primary</span><br><span class="line">    public SqlSessionFactory masterSqlSessionFactory(@Qualifier(&quot;masterDataSource&quot;) DataSource masterDataSource)</span><br><span class="line">            throws Exception &#123;</span><br><span class="line">        final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();</span><br><span class="line">        sessionFactory.setDataSource(masterDataSource);</span><br><span class="line">        sessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver()</span><br><span class="line">                .getResources(MasterDbConfig.MAPPER_LOCATION));</span><br><span class="line">        sessionFactory.setTypeAliasesPackage(DOMAIN_PACKAGE);</span><br><span class="line">        //mybatis 数据库字段与实体类属性驼峰映射配置</span><br><span class="line">        sessionFactory.getObject().getConfiguration().setMapUnderscoreToCamelCase(true);</span><br><span class="line">        return sessionFactory.getObject();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>从数据库<code>Cluster</code>配置类</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">package com.example.demo.config;</span><br><span class="line"></span><br><span class="line">import com.alibaba.druid.pool.DruidDataSource;</span><br><span class="line">import org.apache.ibatis.session.SqlSessionFactory;</span><br><span class="line">import org.mybatis.spring.SqlSessionFactoryBean;</span><br><span class="line">import org.mybatis.spring.annotation.MapperScan;</span><br><span class="line">import org.slf4j.Logger;</span><br><span class="line">import org.slf4j.LoggerFactory;</span><br><span class="line">import org.springframework.beans.factory.annotation.Qualifier;</span><br><span class="line">import org.springframework.beans.factory.annotation.Value;</span><br><span class="line">import org.springframework.context.annotation.Bean;</span><br><span class="line">import org.springframework.context.annotation.Configuration;</span><br><span class="line">import org.springframework.core.io.support.PathMatchingResourcePatternResolver;</span><br><span class="line">import org.springframework.jdbc.datasource.DataSourceTransactionManager;</span><br><span class="line"></span><br><span class="line">import javax.sql.DataSource;</span><br><span class="line">import java.sql.SQLException;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 从数据源配置</span><br><span class="line"> * 若需要配置更多数据源 , 直接在yml中添加数据源配置再增加相应的新的数据源配置类即可</span><br><span class="line"> */</span><br><span class="line">@Configuration</span><br><span class="line">@MapperScan(basePackages  = ClusterDbConfig.PACKAGE , sqlSessionFactoryRef = &quot;clusterSqlSessionFactory&quot;)</span><br><span class="line">public class ClusterDbConfig &#123;</span><br><span class="line">    private Logger logger = LoggerFactory.getLogger(ClusterDbConfig.class);</span><br><span class="line">    // 精确到 cluster 目录，以便跟其他数据源隔离</span><br><span class="line">    static final String PACKAGE = &quot;com.example.demo.mapper.cluster&quot;;</span><br><span class="line">    private static final String MAPPER_LOCATION = &quot;classpath*:mapping/cluster/*.xml&quot;;</span><br><span class="line">    private static final String DOMAIN_PACKAGE = &quot;com.example.demo.entity&quot;;</span><br><span class="line"></span><br><span class="line">    @Value(&quot;$&#123;spring.datasource.db02.url&#125;&quot;)</span><br><span class="line">    private String dbUrl;</span><br><span class="line"></span><br><span class="line">    @Value(&quot;$&#123;spring.datasource.db02.username&#125;&quot;)</span><br><span class="line">    private String username;</span><br><span class="line"></span><br><span class="line">    @Value(&quot;$&#123;spring.datasource.db02.password&#125;&quot;)</span><br><span class="line">    private String password;</span><br><span class="line"></span><br><span class="line">    @Value(&quot;$&#123;spring.datasource.db02.driver-class-name&#125;&quot;)</span><br><span class="line">    private String driverClassName;</span><br><span class="line"></span><br><span class="line">    @Bean(name=&quot;clusterDataSource&quot;)   //声明其为Bean实例</span><br><span class="line">    public DataSource clusterDataSource() &#123;</span><br><span class="line">        DruidDataSource datasource = new DruidDataSource();</span><br><span class="line"></span><br><span class="line">        datasource.setUrl(this.dbUrl);</span><br><span class="line">        datasource.setUsername(username);</span><br><span class="line">        datasource.setPassword(password);</span><br><span class="line">        datasource.setDriverClassName(driverClassName);</span><br><span class="line">        return datasource;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Bean(name = &quot;clusterTransactionManager&quot;)</span><br><span class="line">    public DataSourceTransactionManager clusterTransactionManager() &#123;</span><br><span class="line">        return new DataSourceTransactionManager(clusterDataSource());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Bean(name = &quot;clusterSqlSessionFactory&quot;)</span><br><span class="line">    public SqlSessionFactory clusterSqlSessionFactory(@Qualifier(&quot;clusterDataSource&quot;) DataSource culsterDataSource)</span><br><span class="line">            throws Exception &#123;</span><br><span class="line">        final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();</span><br><span class="line">        sessionFactory.setDataSource(culsterDataSource);</span><br><span class="line">        sessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver()</span><br><span class="line">                .getResources(ClusterDbConfig.MAPPER_LOCATION));</span><br><span class="line">        sessionFactory.setTypeAliasesPackage(DOMAIN_PACKAGE);</span><br><span class="line">        //mybatis 数据库字段与实体类属性驼峰映射配置</span><br><span class="line">        sessionFactory.getObject().getConfiguration().setMapUnderscoreToCamelCase(true);</span><br><span class="line">        return sessionFactory.getObject();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="测试访问"><a href="#测试访问" class="headerlink" title="测试访问"></a>测试访问</h4><p>启动项目后会看到有两个datasource连接池<br><img src="/2023/03/13/druid-mybatis%E9%85%8D%E7%BD%AE%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%E5%90%8C%E6%97%B6%E7%94%9F%E6%95%88-%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%EF%BC%88%E4%B8%80%EF%BC%89/druid5.jpg" alt width="80%" align="center"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">@CrossOrigin</span><br><span class="line">@RestController</span><br><span class="line">@RequestMapping(&quot;/define&quot;)</span><br><span class="line">public class DemoController &#123;</span><br><span class="line">    @Autowired</span><br><span class="line">    PersonMapper0 pMapperMaster;</span><br><span class="line"></span><br><span class="line">    @GetMapping(&quot;/pMapperMaster&quot;)</span><br><span class="line">    public List&lt;Person&gt; pMapperMaster() &#123;</span><br><span class="line">        List&lt;Person&gt; users = pMapperMaster.queryUserList();</span><br><span class="line">        return users;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    PersonMapper1 pMapperCluster;</span><br><span class="line"></span><br><span class="line">    @GetMapping(&quot;/pMapperCluster&quot;)</span><br><span class="line">    public List&lt;Person&gt; pMapperCluster() &#123;</span><br><span class="line">        List&lt;Person&gt; users = pMapperCluster.queryUserList();</span><br><span class="line">        return users;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="访问结果"><a href="#访问结果" class="headerlink" title="访问结果"></a>访问结果</h4><p>两个数据源的数据不同<br><img src="/2023/03/13/druid-mybatis%E9%85%8D%E7%BD%AE%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%E5%90%8C%E6%97%B6%E7%94%9F%E6%95%88-%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%EF%BC%88%E4%B8%80%EF%BC%89/druid6.jpg" alt width="50%" align="center/"><img src="/2023/03/13/druid-mybatis%E9%85%8D%E7%BD%AE%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%E5%90%8C%E6%97%B6%E7%94%9F%E6%95%88-%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%EF%BC%88%E4%B8%80%EF%BC%89/druid7.jpg" alt width="49.1%" align="center/"></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>郭浩男
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://guohaonan1.github.io/2023/03/13/druid-mybatis%E9%85%8D%E7%BD%AE%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%E5%90%8C%E6%97%B6%E7%94%9F%E6%95%88-%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%EF%BC%88%E4%B8%80%EF%BC%89/" title="druid+mybatis配置多数据源同时生效 -- 多数据源（一）">http://guohaonan1.github.io/2023/03/13/druid-mybatis配置多数据源同时生效-多数据源（一）/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN,en" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag"># 数据库</a>
+              <a href="/tags/druid/" rel="tag"># druid</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/02/22/springboot%E5%92%8Cspringframework%E7%89%88%E6%9C%AC%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB/" rel="prev" title="springboot和springframework版本依赖关系">
+                  <i class="fa fa-chevron-left"></i> springboot和springframework版本依赖关系
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭浩男</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">49k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">45 分钟</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        本站访客数：<span id="busuanzi_value_site_uv"></span>人
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        总阅读量：<span id="busuanzi_value_site_pv"></span>次
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>
